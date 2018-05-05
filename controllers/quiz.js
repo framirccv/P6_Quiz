@@ -157,10 +157,10 @@ exports.check = (req, res, next) => {
 //cuando clickamos en Play, se ejecuta esta función, la cual nos lleva a la vista random_play sacando 
 //preguntas aleatorias
 exports.randomplay = (req, res, next) => {
-    let score=0;
+
     if(req.session.randomplay === undefined){
         req.session.randomplay = req.session.randomplay || [];
-    };
+    }
     
     const whereOpt = {"id": {[Sequelize.Op.notIn]: req.session.randomplay}};
     Sequelize.Promise.resolve()
@@ -181,7 +181,40 @@ exports.randomplay = (req, res, next) => {
         let score = req.session.randomplay.length;
         res.render('quizzes/random_play', {score ,quiz});
     })
-};
+}
+
+/*
+exports.randomplay=(req,res,next)=>{
+    if(req.session.randomplay===undefined){
+        req.session.randomplay=[];
+    }
+    const whereOpt={"id":{[Sequelize.Op.notIn]:req.session.randomplay}};
+    return models.quiz.count({where:whereOpt})
+        .then(count=>{
+            if(!count){
+                let score=req.session.randomplay.length;
+                req.session.randomplay=[];
+                res.render('quizzes/random_nomore',{score:score});
+            }
+
+            let ran =Math.floor(Math.random()*count);
+           return models.quiz.findAll({where:whereOpt,offset:ran,limit:1})
+                .then(quizzes=>{
+                    return quizzes[0];
+                });
+
+        })
+        .then(quiz=>{
+            let score =req.session.randomplay.length;
+            res.render('quizzes/random_play',{quiz,score});
+        })
+
+         .catch(error=>{
+            req.flash('error','Error al ejecutar randomplay: '+ error.message);
+            next(error);
+    })
+
+}*/
 
 exports.randomcheck = (req, res, next) => {
     let limit;
@@ -210,7 +243,7 @@ exports.randomcheck = (req, res, next) => {
             res.render('quizzes/random_nomore',{score});
         }
         
-        res.render('quizzes/random_result',{result,score,answer:limit});
+        res.render('quizzes/random_result',{result,score,answer});
 
     }
     else{
@@ -219,12 +252,11 @@ exports.randomcheck = (req, res, next) => {
         res.render('quizzes/random_result',{result,score,answer});
     }
 });
+}
    
    
-   
-   
-   
-    /*
+/*   
+exports.randomcheck = (req, res, next) => {
     const answer = req.query.answer || '';
     const result = answer.toLowerCase().trim() === req.quiz.answer.toLowerCase().trim();
     if(result){
@@ -243,7 +275,6 @@ exports.randomcheck = (req, res, next) => {
 
 
     }
-    */
+      
+}  */
 
-       
-};

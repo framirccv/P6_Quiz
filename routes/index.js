@@ -13,9 +13,6 @@ router.get('/author', (req, res, next) => {
     res.render('author');
 });
 
-/*router.get('/quizzes/random_play', (req, res, next) => {
-  res.render('quizzes/random_play');
-}); */
 
 // Autoload for routes using :quizId
 router.param('quizId', quizController.load);
@@ -40,6 +37,7 @@ router.get('/quizzes/randomplay',          quizController.randomplay);
 //creamos una funcion que compruebe si lo que ha puesto el usuario es correcto
 //se ejecuta la funcion cuando le damos a check en la vista de random_play
 router.get('/quizzes/randomcheck/:quizId(\\d+)',  quizController.randomcheck);
+
 
 
 module.exports = router;
