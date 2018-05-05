@@ -153,3 +153,97 @@ exports.check = (req, res, next) => {
         answer
     });
 };
+
+//cuando clickamos en Play, se ejecuta esta función, la cual nos lleva a la vista random_play sacando 
+//preguntas aleatorias
+exports.randomplay = (req, res, next) => {
+    let score=0;
+    if(req.session.randomplay === undefined){
+        req.session.randomplay = req.session.randomplay || [];
+    };
+    
+    const whereOpt = {"id": {[Sequelize.Op.notIn]: req.session.randomplay}};
+    Sequelize.Promise.resolve()
+        .then(() => {
+            return models.quiz.count({where: whereOpt})
+                .then(count => {
+                    let ran = Math.floor(Math.random()*count);
+                    return models.quiz.findAll({ where: whereOpt, offset: ran, limit: 1})
+                        .then(quizzes => {
+                            return quizzes[0];
+                        });
+                })
+                .catch(error => {
+                    req.flash('error', 'Error deleting the Quiz: ' + error.message);
+                });
+        })
+    .then(quiz => {
+        let score = req.session.randomplay.length;
+        res.render('quizzes/random_play', {score ,quiz});
+    })
+};
+
+exports.randomcheck = (req, res, next) => {
+    let limit;
+    //const whereOpt = {"id": {[Sequelize.Op.notIn]: req.session.randomplay}};
+    Sequelize.Promise.resolve()
+    .then(() => {
+        return models.quiz.count()
+            .then(count => {
+                limit = count;
+                
+            })
+            .catch(error => {
+                req.flash('error', 'Error deleting the Quiz: ' + error.message);
+            });
+    })
+.then(() => {
+    const answer = req.query.answer || '';
+    const result = answer.toLowerCase().trim() === req.quiz.answer.toLowerCase().trim();
+    if(result){
+        if(req.session.randomplay.indexOf(req.quiz.id) === -1){
+            req.session.randomplay.push(req.quiz.id);
+        }
+        const score = req.session.randomplay.length;
+        if(score === limit){
+            req.session.randomplay = [];
+            res.render('quizzes/random_nomore',{score});
+        }
+        
+        res.render('quizzes/random_result',{result,score,answer:limit});
+
+    }
+    else{
+        const score = req.session.randomplay.length;
+        req.session.randomplay = [];
+        res.render('quizzes/random_result',{result,score,answer});
+    }
+});
+   
+   
+   
+   
+   
+    /*
+    const answer = req.query.answer || '';
+    const result = answer.toLowerCase().trim() === req.quiz.answer.toLowerCase().trim();
+    if(result){
+        if(req.session.randomplay.indexOf(req.quiz.id) === -1){
+            req.session.randomplay.push(req.quiz.id);
+        }
+        const score = req.session.randomplay.length;
+        
+        res.render('quizzes/random_result',{result,score,answer});
+
+    }
+    else{
+        const score = req.session.randomplay.length;
+        req.session.randomplay = [];
+        res.render('quizzes/random_result',{result,score,answer});
+
+
+    }
+    */
+
+       
+};

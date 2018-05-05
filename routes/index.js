@@ -13,6 +13,9 @@ router.get('/author', (req, res, next) => {
     res.render('author');
 });
 
+/*router.get('/quizzes/random_play', (req, res, next) => {
+  res.render('quizzes/random_play');
+}); */
 
 // Autoload for routes using :quizId
 router.param('quizId', quizController.load);
@@ -29,6 +32,14 @@ router.delete('/quizzes/:quizId(\\d+)',    quizController.destroy);
 
 router.get('/quizzes/:quizId(\\d+)/play',  quizController.play);
 router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
+
+//el hiperenlace play de la vista principal es /quizzes/randomplay, es decir, cuando le damos se ejecuta tal función
+//la cual hemos definido el archivo quiz dentro de controllers
+router.get('/quizzes/randomplay',          quizController.randomplay);
+
+//creamos una funcion que compruebe si lo que ha puesto el usuario es correcto
+//se ejecuta la funcion cuando le damos a check en la vista de random_play
+router.get('/quizzes/randomcheck/:quizId(\\d+)',  quizController.randomcheck);
 
 
 module.exports = router;
