@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start_old": "heroku local:start",
-    "super": "supervisor ./bin/www",
+    "super": "supervisor ./bin/www"
 
   },
   "engines": {
