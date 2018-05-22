@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const quizController = require('../controllers/quiz');
+const quizController = require('../controllers/quiz'); //por esto luego se pone quizController.
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -19,13 +19,16 @@ router.param('quizId', quizController.load);
 
 
 // Routes for the resource /quizzes
+//solo los GET reenderizan vistas
+//los PUT, DELETE ... reedirigen a los GET
+//HTML solo permite enviar GET o POST al servidor, por eso DELETE y PUT se encapsulan en el parámetro oculto _method
 router.get('/quizzes',                     quizController.index);
 router.get('/quizzes/:quizId(\\d+)',       quizController.show);
 router.get('/quizzes/new',                 quizController.new);
-router.post('/quizzes',                    quizController.create);
+router.post('/quizzes',                    quizController.create); //crea
 router.get('/quizzes/:quizId(\\d+)/edit',  quizController.edit);
-router.put('/quizzes/:quizId(\\d+)',       quizController.update);
-router.delete('/quizzes/:quizId(\\d+)',    quizController.destroy);
+router.put('/quizzes/:quizId(\\d+)',       quizController.update); //actualiza
+router.delete('/quizzes/:quizId(\\d+)',    quizController.destroy);//elimina
 
 router.get('/quizzes/:quizId(\\d+)/play',  quizController.play);
 router.get('/quizzes/:quizId(\\d+)/check', quizController.check);

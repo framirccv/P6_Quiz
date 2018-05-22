@@ -14,6 +14,7 @@ var session = require('express-session');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var partials = require('express-partials'); //es un MW para "sacar factor común", introduce layout.ejs 
                                             //en layout habría que introducir las vistas comunes a todas las páginas
+                                            //viewport es para ajustar el tamaño de la pagina a los distintos dispositivos
 var flash = require('express-flash');
 var methodOverride = require('method-override');
 
