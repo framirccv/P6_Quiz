@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const quizController = require('../controllers/quiz');
+const quizController = require('../controllers/quiz'); //por esto luego se pone quizController.
 const tipController = require('../controllers/tip');
 const userController = require('../controllers/user');
 const sessionController = require('../controllers/session');
@@ -40,7 +40,6 @@ router.get([
     '/quizzes'], saveBack);
 
 //-----------------------------------------------------------
-const quizController = require('../controllers/quiz'); //por esto luego se pone quizController.
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
