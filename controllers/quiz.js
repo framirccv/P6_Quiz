@@ -34,10 +34,12 @@ exports.adminOrAuthorRequired = (req, res, next) => {
 
     const isAdmin  = !!req.session.user.isAdmin;
     const isAuthor = req.quiz.authorId === req.session.user.id;
+   // const isAuthorTip = req.tip.authorId === req.session.user.id;
 
-    if (isAdmin || isAuthor) {
+    if (isAdmin || isAuthor ) {
         next();
     } else {
+        
         console.log('Prohibited operation: The logged in user is not the author of the quiz, nor an administrator.');
         res.send(403);
     }

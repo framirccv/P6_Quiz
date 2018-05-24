@@ -146,23 +146,23 @@ router.post('/quizzes/:quizId(\\d+)/tips',
     tipController.create);
 router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/accept',
     sessionController.loginRequired,
-    quizController.adminOrAuthorRequired,
+    tipController.adminOrAuthorRequiredTip,
     tipController.accept);
 router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     sessionController.loginRequired,
-    quizController.adminOrAuthorRequired,
+    tipController.adminOrAuthorRequiredTip,
     tipController.destroy);
 
 
 router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
     sessionController.loginRequired,
-    quizController.adminOrAuthorRequired,
+    tipController.adminOrAuthorRequiredTip,
     tipController.edit);
 
 
 router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/update',
     sessionController.loginRequired,
-    quizController.adminOrAuthorRequired,
+    tipController.adminOrAuthorRequiredTip,
     tipController.update);  
 
 
