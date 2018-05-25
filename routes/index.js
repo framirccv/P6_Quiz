@@ -153,7 +153,7 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     tipController.adminOrAuthorRequiredTip,
     tipController.destroy);
 
-
+//Estos los hemos creados para la practica 8
 router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
     sessionController.loginRequired,
     tipController.adminOrAuthorRequiredTip,
