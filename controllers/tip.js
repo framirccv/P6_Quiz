@@ -97,37 +97,34 @@ exports.destroy = (req, res, next) => {
 
 exports.edit = (req, res, next) => {
 
-    const {tip} = req;
+    const {quiz,tip} = req;
 
-    res.render('tips/edit', {tip});
+    res.render('tips/edit', {quiz, tip});
 };
 
 
 
 
 exports.update = (req, res, next) => {
-
-    console.log("LO IMPRIMIOSSSSSSSSSS-----------------------------------------"+req.params.tipId + req.body.text);
     
   models.tip.findById(req.params.tipId)
    .then(tip => {
        if (tip) {
-           console.log("VAAAAAAAAAAAAAAAAAAAAAAAAAAAMOSSSSSSSSSSSSSSSSSSSS-----------------------------------"+ tip.text);
            tip.text = req.body.text;
            tip.accepted=false;
-           console.log("VAAAAAAAAAAAAAAAAAAAAAAAAAAAMOSSSSSSSSSSSSSSSSSSSS-----------------------------------"+ tip.text);
+           
            tip.save({fields: ["text", "accepted", "authorId"]})
-           .then(quiz => {
-                req.flash('success', 'Quiz edited successfully.');
+           .then(tip => {
+                req.flash('success', 'Tip edited successfully.');
                 res.redirect('/quizzes/' + req.params.quizId);
             })
             .catch(Sequelize.ValidationError, error => {
                 req.flash('error', 'There are errors in the form:');
                 error.errors.forEach(({message}) => req.flash('error', message));
-                res.render('quizzes/edit', {quiz});
+                res.render('quizzes/edit', {quiz, tip});
             })
             .catch(error => {
-                req.flash('error', 'Error editing the Quiz: ' + error.message);
+                req.flash('error', 'Error editing the Tip: ' + error.message);
                 next(error);
             });
        } 
