@@ -160,7 +160,7 @@ router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
     tipController.edit);
 
 
-router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/update',
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     sessionController.loginRequired,
     tipController.adminOrAuthorRequiredTip,
     tipController.update);  
