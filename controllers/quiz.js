@@ -246,9 +246,9 @@ exports.randomplay = (req, res, next) => {
             return models.quiz.count({where: whereOpt})
                 .then(count => {
                     let ran = Math.floor(Math.random()*count);
-                    return models.quiz.findAll({ where: whereOpt, offset: ran, limit: 1})
+                    return models.quiz.findAll({ where: whereOpt, offset: ran, limit: 1}) //el offset es para saltarse un numero aleatorio de elementos encontrados, es decir para no devolver siempre el primer elemento que encuentre
                         .then(quizzes => {
-                            return quizzes[0];
+                            return quizzes[0]; //como es findAll devuelve un array, y como solo hay un elemento (limit:1) cogemos el primer elemento del array
                         });
                 })
                 .catch(error => {
