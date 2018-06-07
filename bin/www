@@ -14,7 +14,7 @@ var http = require('http'); //implementa el protocolo http
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort('3000'); //arranca en el puerto 3000 en el puerto que hayamos pasado con la variable PORT
+var port = normalizePort(process.env.PORT||'3000'); //arranca en el puerto 3000 en el puerto que hayamos pasado con la variable PORT
 app.set('port', port);
 
 /**
